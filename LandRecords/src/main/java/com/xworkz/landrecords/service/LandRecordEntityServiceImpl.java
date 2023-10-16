@@ -73,7 +73,7 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 	            valid = false;  
 	        }
 	        if (ent.getHissaNumber()<0) {
-	            model.addAttribute("IsStateValid", "please check the  state Field ");
+	            model.addAttribute("IshissValid", "please check the  state Field ");
 	            valid = false;  
 	        }
 	        
@@ -98,10 +98,16 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 	@Override
 	public boolean save(LandEntity ent, Model model) {
 		 if(validateEntity(ent, model)) {
-			 boolean save= repo1.saveentity(ent);
-				return save;
+			 if(ifExists(ent.getHissaNumber(), ent.getSurveyNumber(), model)==null) {
+				 boolean save= repo1.saveentity(ent);
+					return save;
+			 }
+			 System.out.println("dto already present");
+			 model.addAttribute("exist",  "records already exists");
+			 return false;
 		 }
 		 System.out.println("not saving2 ");
+		 model.addAttribute("exist1",  "records are not saved");
 		return false;
 	}
 
@@ -123,7 +129,12 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 		try {
 			if(taluk!=null && hobli !=null &&village!= null) {
 				List<LandEntity>  list=	repo1.readBYVillage(taluk, hobli, village);
-			return list;
+				if(list != null && !list.isEmpty()) {
+					System.out.println("dto present");
+					return list;
+				}
+				model.addAttribute("findnot1", "  records are not found ");
+				return null;
 			}
 		}
 		catch(NoResultException e) {
@@ -132,6 +143,77 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 			System.out.println("dto null");
 			return null;
 		}
+		return null;
+	}
+
+
+
+
+	@Override
+	public boolean EditBySurveyno(String ownerName, long phoneNumber, String adharNumber, int hissaNumber,
+			int surveyNumber, Model model) {
+		 if(hissaNumber>0 && hissaNumber<21) {
+			 if(surveyNumber>0 && surveyNumber<150) {
+				if(adharNumber.length()==12) {
+					if(phoneNumber>999999999) {
+						if(ownerName.length()>3) {
+							return repo1.EditBySurveyno(ownerName, phoneNumber, adharNumber, hissaNumber, surveyNumber);
+						}
+						model.addAttribute( "nameError", " check the owner name");
+						return false;
+					}
+					model.addAttribute( "pnError", " check phone number");
+					return false;
+				}
+				model.addAttribute( "anError", " check Adhar number");
+				return false;
+			 }
+			 model.addAttribute( "snError", " check survey number");
+				return false;
+		 }
+		 model.addAttribute( "hnError", " check hissa number");
+		return false;
+	}
+
+
+
+
+	@Override
+	public boolean deleteRecords(int hissaNumber, int surveyNumber,Model model) {
+		 if(hissaNumber>0 && hissaNumber<25) {
+			 if(surveyNumber>0 && surveyNumber<150) {
+				return repo1.deleteRecords(hissaNumber, surveyNumber);
+			 }
+			 model.addAttribute( "Errorhissa", " check hissa number");
+				return false;
+		 }
+		 model.addAttribute( "ErrorSurvey", " check survey number");
+		return false;
+	}
+
+
+
+
+	@Override
+	public LandEntity ifExists(int hissaNumber, int surveyNumber, Model model) {
+		try {
+			if(hissaNumber>0 && hissaNumber<25) {
+				if(surveyNumber>0 && surveyNumber<150) {
+					LandEntity	  list=	repo1.ifExists(hissaNumber, surveyNumber);
+					return list;
+				}
+				
+				System.out.println("wrong survey no");
+				return null;
+			}
+		}
+		catch(NoResultException e) {
+			 
+			 
+			System.out.println("dto error  ");
+			return null;
+		}
+		
 		return null;
 	}
 

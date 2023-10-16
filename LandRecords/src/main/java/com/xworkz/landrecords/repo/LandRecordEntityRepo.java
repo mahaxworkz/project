@@ -11,6 +11,10 @@ public interface LandRecordEntityRepo {
 	public List<LandEntity> readAll();
 	
 	public List<LandEntity> readBYVillage(String taluk,String hobli,String village);
+	
+	public boolean EditBySurveyno(String ownerName,long phoneNumber,  String adharNumber,int hissaNumber,int surveyNumber);
 
-
+   public boolean deleteRecords(int hissaNumber ,int surveyNumber);
+   public LandEntity  ifExists(int hissaNumber ,int surveyNumber);
+   
 }

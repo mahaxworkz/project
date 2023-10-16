@@ -9,18 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 
+ 
+ 
+ 
 @Table(name = "admin_details")
 @Entity
 @NamedQuery(name = "findMail" , query = "select dto from AdminDto dto where dto.email=:em")
@@ -33,5 +26,45 @@ public class AdminDto implements Serializable{
 	private String name;
 	private String email;
 	private String OTP;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getOTP() {
+		return OTP;
+	}
+	public void setOTP(String oTP) {
+		OTP = oTP;
+	}
+	
+	public AdminDto() {
+		System.out.println("default cons");
+	}
+	public AdminDto( String name, String email, String oTP) {
+		super();
+		this.name = name;
+		this.email = email;
+		OTP = oTP;
+	}
+	@Override
+	public String toString() {
+		return "AdminDto [name=" + name + ", email=" + email + ", OTP=" + OTP + "]";
+	}
+	
+	
 
 }

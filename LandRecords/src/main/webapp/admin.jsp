@@ -41,15 +41,7 @@
             <!-- Left links -->
 
             <!-- Right elements -->
-            <div class="d-flex align-items-center justify-content-start">
-                <!-- Icon -->
-                <a class="text-reset me-3" href="#">
-                    <i class="fas fa-shopping-cart text-white"></i>
-                </a>
-
-                 
-                
-            </div>
+            
             <!-- Right elements -->
         </div>
         <!-- Collapsible wrapper -->
@@ -60,6 +52,7 @@
 <section>
 <div class="signup-form">
 <form action="sign" method="post" style="text-align: center">
+<br>
 	<h2> Login </h2>
 				 <h6 style="color: red;">${check}</h6>
 				 <h6 style="color: green;">${saved}</h6>
@@ -70,12 +63,13 @@
 				<br>
 				 
 				<div class="inputbox">
-					<ion-icon name="mail-outline"></ion-icon>
+					<ion-icon name="mail-outline"></ion-icon>&nbsp;&nbsp;
 			  <input type="email"  name="email" id="t3" value="<%= (request.getParameter("email") != null) ? request.getParameter("email") : "" %>"  placeholder="email"  >
 					 
 
 				</div>
 				<div>
+				<br> 
 				<button type="submit" value="sendOTP" class="btn btn-primary">send OTP</button>
 				</div>
 				 
@@ -85,12 +79,12 @@
 			<form action="otpcheck" method="post">
 				
 				<div class="inputbox" style="text-align: center">
-			 
+			        <ion-icon name="lock-closed-outline"></ion-icon>&nbsp;&nbsp;
 					<input type="password" name="OTP" placeholder="OTP" class="tb" id="t4">
 					 <br>
 					 <br>
 				 <div style="text-align: center">
-					<button type="submit"    value="login"  class="btn btn-primary"  >Login</button> </td>
+					<button type="submit"    value="login"  class="btn btn-primary"  >  Login  </button> </td>
 				</div>
 
 				</div>

@@ -43,7 +43,7 @@ public class LoginController {
 		
 		 AdminDto sign= service.findByOtp(OTP, model);
 		if(sign !=null) {
-			model.addAttribute("check", "login sucessfully");
+			model.addAttribute("check",  sign);
 			return "main";
 		}
 		return "admin";

@@ -46,27 +46,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">User</a>
                 </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="save.jsp">add</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="check2.jsp">check</a>
-                </li>
-                
-            </ul>
-            <!-- Left links -->
-
-            <!-- Right elements -->
-            <div class="d-flex align-items-center justify-content-start">
-                <!-- Icon -->
-                <a class="text-reset me-3" href="#">
-                    <i class="fas fa-shopping-cart text-white"></i>
-                </a>
-
                  
                 
-            </div>
-            <!-- Right elements -->
+            </ul>
+             
         </div>
         <!-- Collapsible wrapper -->
     </div>

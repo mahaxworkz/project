@@ -23,20 +23,23 @@ public class RecordSavingController {
 		
 		boolean saved=landservice.save(dto, model);
 		if(saved) {
+			model.addAttribute("saving" ,"record saved");		
 			System.out.println("saving land");
 		}
 		return "read";
 		
 	}
 	
-	@RequestMapping(value = "/read", method = RequestMethod.POST)
-	public String readRecords( Model model) {
+	@RequestMapping(value = "/editRecords", method = RequestMethod.POST)
+	public String EditRecords( Model model,@RequestParam String ownerName,@RequestParam long phoneNumber,
+			@RequestParam String adharNumber,@RequestParam int hissaNumber,@RequestParam int surveyNumber) {
 		
-	 List<LandEntity> dto=landservice.readAll();
-		if(dto!= null) {
-			 model.addAttribute("read", dto);
+	   boolean edit= landservice.EditBySurveyno(ownerName, phoneNumber, adharNumber, hissaNumber, surveyNumber, model);
+		if(edit) {
+			model.addAttribute("edited",  "updated in records");
+			return "edit";
 		}
-		return "view";
+	   return "edit";
 		
 	}
 	
@@ -46,9 +49,22 @@ public class RecordSavingController {
 	 List<LandEntity> dto=landservice.readBYVillage(taluk, hobli, village, model);
 		if(dto!= null) {
 			 model.addAttribute("read", dto);
+			 System.out.println("present");
 		}
-		return "check";
+		model.addAttribute("reading",  "no records found");
+		return "search";
 		
+	}
+	@RequestMapping(value="/remove",method=RequestMethod.POST)
+	public String DeleteRecord(Model model,@RequestParam int hissaNumber,int surveyNumber) {
+		boolean remove= landservice.deleteRecords(hissaNumber, surveyNumber, model);
+		if(remove) {
+			model.addAttribute("delete", "records deleted sucessfully");
+			 
+		}
+		
+		
+		return "delete";
 	}
 
 }

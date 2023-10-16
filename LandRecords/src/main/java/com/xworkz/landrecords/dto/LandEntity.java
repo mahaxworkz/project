@@ -14,7 +14,10 @@ import javax.persistence.Table;
 @Entity
 @NamedQuery(name = "readAll" ,query = "select dto from LandEntity dto")
 @NamedQuery(name = "readbyvillage" ,query = "select dto from LandEntity dto where    dto.taluk =: tl and dto.hobli =: hb and dto.village =:vl")
-
+@NamedQuery(name="Edit" ,query="update LandEntity dto set dto.ownerName=:on ,dto.phoneNumber=:pn ,dto.adharNumber =:an "
+		+ "where dto.hissaNumber=:hn and dto.surveyNumber=:sn")
+@NamedQuery(name="delete",query="delete from LandEntity dto where   hissaNumber =:hn and surveyNumber =: sn")
+@NamedQuery(name="ifExist",query="select dto from LandEntity dto where dto.hissaNumber=:hn and dto.surveyNumber=:sn")
 public class LandEntity  implements Serializable{
 	
 	@Id
