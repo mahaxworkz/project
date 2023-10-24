@@ -10,14 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
   
-@Table(name="records")
+@Table(name="landrecords")
 @Entity
-@NamedQuery(name = "readAll" ,query = "select dto from LandEntity dto")
-@NamedQuery(name = "readbyvillage" ,query = "select dto from LandEntity dto where    dto.taluk =: tl and dto.hobli =: hb and dto.village =:vl")
+@NamedQuery(name = "readAll" ,query = "select dto from LandEntity dto where dto.status= 1 ")
+@NamedQuery(name = "readbyvillage" ,query = "select dto from LandEntity dto where    dto.taluk =: tl and dto.hobli =: hb and dto.village =:vl and   dto.status= 1")
 @NamedQuery(name="Edit" ,query="update LandEntity dto set dto.ownerName=:on ,dto.phoneNumber=:pn ,dto.adharNumber =:an "
-		+ "where dto.hissaNumber=:hn and dto.surveyNumber=:sn")
-@NamedQuery(name="delete",query="delete from LandEntity dto where   hissaNumber =:hn and surveyNumber =: sn")
-@NamedQuery(name="ifExist",query="select dto from LandEntity dto where dto.hissaNumber=:hn and dto.surveyNumber=:sn")
+		+ "where dto.hissaNumber=:hn and dto.surveyNumber=:sn and  dto.status= 1")
+@NamedQuery(name="delete",query=" update LandEntity dto set dto.status=:st  where hissaNumber =:hn and surveyNumber =: sn")
+@NamedQuery(name="ifExist",query="select dto from LandEntity dto where dto.hissaNumber=:hn and dto.surveyNumber=:sn and   dto.status= 1")
+ 
 public class LandEntity  implements Serializable{
 	
 	@Id
@@ -45,6 +46,14 @@ public class LandEntity  implements Serializable{
 	private  String hobli;
 	 
 	private  String village;
+	private int status=1;
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public int getId() {
 		return id;
 	}
@@ -115,6 +124,25 @@ public class LandEntity  implements Serializable{
 		return village;
 	}
 	public void setVillage(String village) {
+		this.village = village;
+	}
+	
+	public LandEntity() {
+		System.out.println("landentity");
+	}
+	public LandEntity(String ownerName, Long phoneNumber, String adharNumber, Integer hissaNumber, Integer surveyNumber,
+			String year, String state, String district, String taluk, String hobli, String village) {
+		super();
+		this.ownerName = ownerName;
+		this.phoneNumber = phoneNumber;
+		this.adharNumber = adharNumber;
+		this.hissaNumber = hissaNumber;
+		this.surveyNumber = surveyNumber;
+		this.year = year;
+		this.state = state;
+		this.district = district;
+		this.taluk = taluk;
+		this.hobli = hobli;
 		this.village = village;
 	}
 	

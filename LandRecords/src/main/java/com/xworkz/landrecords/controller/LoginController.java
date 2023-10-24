@@ -51,15 +51,7 @@ public class LoginController {
 		
 	}
 	
-	@RequestMapping(value="/check2",method = RequestMethod.POST)
-	public String check(     Model model) {
-		
-		 
-		 
 	 
-		return "save";
-	}
-	
 	
 
 }

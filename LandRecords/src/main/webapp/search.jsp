@@ -539,6 +539,8 @@ document.getElementById("hobli").addEventListener("change", function() {
 
 }
 
+
+
 </script>  
  
 </head>
@@ -915,14 +917,15 @@ document.getElementById("hobli").addEventListener("change", function() {
 	 					 	</select>
  					 	 
 		 			</div>
-		 			
-		 			&nbsp;&nbsp;
-		 			 <button type="submit" class="btn btn-primary" style="size: 2 px;" >GO</button>
+		 			 
+		 			 
+		 			 <button type="submit" class="btn btn-primary" style=" height: 10 px; width: 100 px;" >GO</button>
+		 			 
 		 			</div> 
 		 			 
 		 			 
 </div>
-		 		 
+		 		  
 		 			
 		 			 
 		 			
@@ -945,6 +948,8 @@ document.getElementById("hobli").addEventListener("change", function() {
       <th scope="col">hissa No</th>
       <th scope="col">Survey No</th>
       <th scope="col">year</th>
+      <th scope="col">Delete</th>
+      <th scope="col">Edit</th>
       
     </tr></thead>
   
@@ -958,6 +963,16 @@ document.getElementById("hobli").addEventListener("change", function() {
 <td>${list.hissaNumber}</td>
 <td>${list.surveyNumber}</td>
 <td>${list.year}</td>
+<td> 
+			<form action="remove" method="post">
+			<input type="hidden" name="hissaNumber" value="${list.hissaNumber}">
+			<input type="hidden" name="surveyNumber" value="${list.surveyNumber}">
+			<input class="btn btn-primary" type="submit" value="Delete" style="padding-left: 20 px; padding-right: ">
+			</form>
+			 </td>
+<td> <a class="btn btn-primary" href="editRecords?hissaNumber=${list.hissaNumber}&surveyNumber=${list.surveyNumber}" role="button" style="  padding-left: 40 px; padding-right: 20px;"  >  &nbsp;&nbsp; Edit  </a>
+ </td>
+        
 
 </tr>
 
@@ -968,13 +983,7 @@ document.getElementById("hobli").addEventListener("change", function() {
 </table>
 <h5 style="color: red">${findnot1}</h5>
 			
-		<div style="align-content: center; "> 
-		 <a class="btn btn-primary" href="edit.jsp" role="button"> Edit Records</a>
-       &nbsp; &nbsp;
-      
-      <a class="btn btn-primary" href="delete.jsp" role="button"> Delete Records</a>
 		 
-</div>
 <!-- Footer -->
 <footer class="bg-primary text-center text-white fixed-bottom">
      

@@ -57,14 +57,16 @@ List<LandEntity> ent=	query.getResultList();
 		return  true;
 	}
 	@Override
-	public boolean deleteRecords(int hissaNumber, int surveyNumber) {
+	public  boolean deleteRecords(int hissaNumber, int surveyNumber,int status) {
+		 
 		EntityManager em=	enmf.createEntityManager();
 	    em.getTransaction().begin();
-		Query query=	em.createNamedQuery("delete") .setParameter( "hn",  hissaNumber).setParameter("sn",  surveyNumber);
+		Query query=	em.createNamedQuery("delete") .setParameter( "hn",  hissaNumber).setParameter("sn",  surveyNumber).setParameter( "st", status);
 		query.executeUpdate();
+		 
 		
 	em.getTransaction().commit();
-		return  true;
+		return  true  ;
 		 
 	}
 	@Override

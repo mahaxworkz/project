@@ -16,8 +16,10 @@ public interface LandRecordEntityService {
 	public List<LandEntity> readAll();
 	public List<LandEntity> readBYVillage(String taluk, String hobli, String village ,Model model);
 	public boolean EditBySurveyno(String ownerName,long phoneNumber,  String adharNumber,int hissaNumber,int surveyNumber,Model model);
-	public boolean deleteRecords(int hissaNumber ,int surveyNumber,Model model);
+	public  boolean deleteRecords(int hissaNumber ,int surveyNumber,Model model);
 	public  LandEntity ifExists(int hissaNumber ,int surveyNumber,Model model);
+	public  LandEntity editRecords(int hissaNumber ,int surveyNumber,Model model);
+	
 
 	
 }

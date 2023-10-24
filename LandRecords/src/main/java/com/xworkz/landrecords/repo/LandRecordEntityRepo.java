@@ -14,7 +14,8 @@ public interface LandRecordEntityRepo {
 	
 	public boolean EditBySurveyno(String ownerName,long phoneNumber,  String adharNumber,int hissaNumber,int surveyNumber);
 
-   public boolean deleteRecords(int hissaNumber ,int surveyNumber);
+   public  boolean deleteRecords(int hissaNumber ,int surveyNumber ,int surveyno);
    public LandEntity  ifExists(int hissaNumber ,int surveyNumber);
+   
    
 }

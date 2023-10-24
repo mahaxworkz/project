@@ -12,7 +12,14 @@
      
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+ <style type="text/css">
+ #box{
+ padding-right: 30px;
+ padding-left: 20px;
+ }
  
+ 
+ </style>
 
 </head>
 <body>
@@ -52,7 +59,7 @@
 <section>
 <div class="signup-form">
 <form action="sign" method="post" style="text-align: center">
-<br>
+<br><br>
 	<h2> Login </h2>
 				 <h6 style="color: red;">${check}</h6>
 				 <h6 style="color: green;">${saved}</h6>
@@ -64,7 +71,7 @@
 				 
 				<div class="inputbox">
 					<ion-icon name="mail-outline"></ion-icon>&nbsp;&nbsp;
-			  <input type="email"  name="email" id="t3" value="<%= (request.getParameter("email") != null) ? request.getParameter("email") : "" %>"  placeholder="email"  >
+			  <input type="email"  name="email" id="box"  value="<%= (request.getParameter("email") != null) ? request.getParameter("email") : "" %>"  placeholder="email"  >
 					 
 
 				</div>
@@ -80,11 +87,11 @@
 				
 				<div class="inputbox" style="text-align: center">
 			        <ion-icon name="lock-closed-outline"></ion-icon>&nbsp;&nbsp;
-					<input type="password" name="OTP" placeholder="OTP" class="tb" id="t4">
+					<input type="password" name="OTP" placeholder="OTP" class="tb" id="box">
 					 <br>
 					 <br>
 				 <div style="text-align: center">
-					<button type="submit"    value="login"  class="btn btn-primary"  >  Login  </button> </td>
+					<button type="submit"    value="login"  class="btn btn-primary" style="padding-left:25px; padding-right: 25px; "  >  Login  </button> </td>
 				</div>
 
 				</div>

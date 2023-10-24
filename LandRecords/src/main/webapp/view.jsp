@@ -39,7 +39,7 @@
                     <a class="nav-link" href="admin.jsp">LogOut</a>
                 </li>
                 <li class="nav-item">
-                <form action="read" method="post">
+                <form action="readAll" method="get">
 <button type="submit" class="btn btn-primary">View Records</button>
 </form>
                 </li>
@@ -58,10 +58,10 @@
     <!-- Container wrapper -->
 </nav>
 <!-- Navbar -->
-<form action="read" method="post">
-<button type="submit" class="btn btn-primary">View Records</button>
-</form>
-                
+
+<h4>${reading}</h4>
+<br>
+                 
   <table class="table">
 
   <thead class="table-dark">
@@ -102,7 +102,7 @@
   
   </tbody>
 </table>
-  <button type="submit">edit</button>
+   
    <!-- Footer -->
 <footer class="bg-primary text-center text-white fixed-bottom">
     <!-- Grid container -->

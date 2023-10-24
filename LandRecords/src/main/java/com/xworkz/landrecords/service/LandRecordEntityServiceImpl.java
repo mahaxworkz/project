@@ -9,6 +9,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.hql.internal.QueryExecutionRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -180,13 +181,17 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 
 	@Override
 	public boolean deleteRecords(int hissaNumber, int surveyNumber,Model model) {
-		 if(hissaNumber>0 && hissaNumber<25) {
-			 if(surveyNumber>0 && surveyNumber<150) {
-				return repo1.deleteRecords(hissaNumber, surveyNumber);
+		 try {
+			if(hissaNumber>0 && hissaNumber<25) {
+				 if(surveyNumber>0 && surveyNumber<150) {
+					return repo1.deleteRecords(hissaNumber, surveyNumber, 2);
+				 }
+				 model.addAttribute( "Errorhissa", " check hissa number");
+					return  false;
 			 }
-			 model.addAttribute( "Errorhissa", " check hissa number");
-				return false;
-		 }
+		} catch ( QueryExecutionRequestException e) {
+			 System.out.println("error occured");
+		}
 		 model.addAttribute( "ErrorSurvey", " check survey number");
 		return false;
 	}
@@ -215,6 +220,33 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 		}
 		
 		return null;
+	}
+
+
+
+
+	@Override
+	public LandEntity editRecords(int hissaNumber, int surveyNumber, Model model) {
+		try {
+			if(hissaNumber>0 && hissaNumber<25) {
+				if(surveyNumber>0 && surveyNumber<150) {
+					LandEntity	  list=	repo1.ifExists(hissaNumber, surveyNumber);
+					return list;
+				}
+				
+				System.out.println("wrong survey no");
+				return null;
+			}
+		}
+		catch(NoResultException e) {
+			 
+			 
+			System.out.println("dto error  ");
+			return null;
+		}
+		
+		return null;
+		 
 	}
 
 }

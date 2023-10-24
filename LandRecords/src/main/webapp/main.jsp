@@ -68,6 +68,7 @@
     
     <br>
     <a class="btn btn-primary" href="read.jsp" role="button">Add Records</a>
+     
        &nbsp; &nbsp;
       
       <a class="btn btn-primary" href="search.jsp" role="button">View Records</a>
