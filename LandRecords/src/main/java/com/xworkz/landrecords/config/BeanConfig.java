@@ -3,6 +3,7 @@ package com.xworkz.landrecords.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -26,6 +27,12 @@ public class BeanConfig implements WebMvcConfigurer{
 @Override
 public void addViewControllers(ViewControllerRegistry registry) {
 	 registry.addRedirectViewController("/", "index.jsp");
+}
+ @Bean
+public CommonsMultipartResolver multipartResolver() {
+	CommonsMultipartResolver resolve = new CommonsMultipartResolver();
+	resolve.setMaxUploadSize(5242880);
+	return resolve;
 }
 
 }

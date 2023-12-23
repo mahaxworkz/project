@@ -27,8 +27,8 @@ public class UserRegister implements Serializable {
 	private String aadharNumber;
 	private String password;
 	private String cPassword;
-	private String otp =null;
-	
+	private String otp ;
+
 	public String getOtp() {
 		return otp;
 	}

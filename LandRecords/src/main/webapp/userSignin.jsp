@@ -116,7 +116,7 @@ body {
   background: -webkit-linear-gradient(to top, #54caeb, #54caeb);
   background: -moz-linear-gradient(to top, #54caeb, #54caeb);
   background: -o-linear-gradient(to top, #54caeb, #54caeb);
-  background: linear-gradient(to top, #76b852, #11ba85);
+  background: linear-gradient(to top, #6edbd0, #147c9c);
   background-size: cover;
   background-attachment: fixed;
   font-family: 'Roboto', sans-serif;
@@ -211,9 +211,9 @@ input.email,input.number, input.text.w3lpass {
 input[type="submit"] {
   font-size: .9em;
   color: #fff;
-  background: #76b852;
+  background: #76c6de;
   outline: none;
-  border: 1px solid #76b852;
+  border: 1px solid #76c6de;
   cursor: pointer;
   padding: 0.9em;
   -webkit-appearance: none;
@@ -775,7 +775,7 @@ input.checkbox:checked:after {
 </head>
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg" style="background-color:#3e4f4c;">
     <!-- Container wrapper -->
     <div class="container-fluid">
         <!-- Navbar brand -->
@@ -792,7 +792,7 @@ input.checkbox:checked:after {
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="index.jsp">home</a>
                 </li>
                 
                 <li class="nav-item">
@@ -813,8 +813,10 @@ input.checkbox:checked:after {
 	<div class="main-w3layouts wrapper">
 	<h5 style="color: green;" align="center">${sign}</h5>
           <h5 style="color: red;" align="center">${account}</h5>
+          <h5 style="color: red;" align="center">${notmatch}</h5>
+          
 	
-		<h1> Registeration  Form</h1>
+		<h1 style="color: white;"> Registeration  Form</h1>
 		<div class="main-agileinfo">
 			<div class="agileits-top">
 				<form action="userSign" method="post">
@@ -859,7 +861,7 @@ input.checkbox:checked:after {
     <!-- Grid container -->
 
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color:primary;">
+    <div class="text-center p-3" style="background-color:#3e4f4c;">
         © 2023 Copyright:
         <a class="text-white" href="mahalakshmi.xworkz@gmail.com">LandRecords</a>
     </div>

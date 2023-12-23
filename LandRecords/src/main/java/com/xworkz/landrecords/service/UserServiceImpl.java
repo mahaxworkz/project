@@ -1,8 +1,26 @@
 package com.xworkz.landrecords.service;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Base64;
 import java.util.Properties;
 import java.util.Random;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -15,27 +33,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.xworkz.landrecords.dto.AdminDto;
+ 
 import com.xworkz.landrecords.dto.UserRegister;
 import com.xworkz.landrecords.repo.UserRepo;
+ 
+
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo repo;
+	
+	 
+	
 	@Override
-	public boolean save(UserRegister user,Model model) {
-		if( repo.mailExists(user.getEmail()) ==null) {
-			if(repo.passwordExists(user.getcPassword())== null) {
+	
+	public boolean save(UserRegister user,Model model) throws Exception   {
+		if( mailExists(user.getEmail())== null) {
+			 if(pwdExists(user.getPassword())==null) {
+				 
+			 
 				if(validateEntity(user, model)) {
+				String epwd=	EncryptPWD(user.getPassword(), "ThisIsASecretKey");
+				user.setPassword(epwd);
+				user.setcPassword(epwd);
 					return repo.save(user);
 				}
-				 
-			}
-			model.addAttribute("pwdCheck", "password Already Exist,give other password");
-			return false;
 				
-		}
+			 }
+			 model.addAttribute("isaccpwd", "This password Not available,try other  password   ");
+				return false;
+			}
+			 
 		 model.addAttribute("isacc", "Email Already Exist,Use other email ");
 		return false;
 	}
@@ -92,6 +121,7 @@ public class UserServiceImpl implements UserService {
 		
 		 try {
 			 UserRegister reg=	repo.ifExists(email, password);
+			 
 			 if(reg!=null) {
 				 return reg;
 			 }
@@ -106,9 +136,16 @@ public class UserServiceImpl implements UserService {
 		 try {
 			 if(email != null) {
 				 if(password != null) {
-					 UserRegister reg=	repo.ifExists(email, password);
+					 UserRegister reg=	repo.mailExists(email);
 					 if(reg!=null) {
-						 return reg;
+						String orgpwd= DecryptPWD(reg.getPassword(), "ThisIsASecretKey");
+						System.out.println(orgpwd);
+						if(orgpwd.equals(password)) {
+							 return reg;
+						}
+						 model.addAttribute("notmatch", "password Not matched"); 
+						 return null; 
+						
 					 }
 					 model.addAttribute("account", "No Account founded "); 
 					 return null;
@@ -136,30 +173,55 @@ public class UserServiceImpl implements UserService {
 	    return new String(otp);  
 	}
 	@Override
-	public boolean checkotp1(String mail, Model model) {
+	public UserRegister checkotp1(String mail, Model model) {
 		UserRegister check=	 findByMail(mail, model);
 		if(check!=null ) {
 		String otp=	randomotp(4);
 		System.out.println(otp);
 		
-		boolean up=repo.updateotp1(otp, mail);
+		try {
+	     
+		String enOTP =	EncryptPWD( otp, "EncryptingKey");
+		boolean up=repo.updateotp1(enOTP , mail);
 		System.out.println(up);
-		  boolean sendMail = sendMail1(otp, mail);
+		UserRegister sendMail = sendMail1(otp, mail);
 		System.out.println(sendMail);
 		 model.addAttribute("otpsent",  "otp sended");
+		 return check;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		  
 		}
 		System.out.println("no dto for otp");
-		return false;
+		return  null;
+	}
+	@Override
+	public UserRegister otpAndMailverification(String mail,String otp , Model model) throws Exception {
+		 
+		 
+		UserRegister register= findByMail(mail, model);
+	String decrypt=	DecryptPWD( register.getOtp(),"EncryptingKey"  );
+	if(decrypt.equals( otp)) {
+		return register;
+	}
+		  
+		return null;
 	}
 	@Override
 	public UserRegister findByOtp1(String otp, Model models) {
 		try { 
 			if(otp!=null) {
 				UserRegister list=	repo.findByOtp1(otp);
+				
 			if(list.getOtp().equals(otp)) {
 				return list;
 			}else {
-				models.addAttribute("findotp2", "otp not matched  "); 
+				models.addAttribute("findotp2", "otp not matched"); 
 				return null;
 			}
 			
@@ -176,7 +238,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 	@Override
-	public boolean sendMail1(String otp, String email) {
+	public UserRegister sendMail1(String otp, String email) {
 		String senderEmail = "mahalakshmi.xworkz@outlook.com";
         String senderPassword = "Maha$2211";
 
@@ -218,7 +280,7 @@ public class UserServiceImpl implements UserService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-		return true;
+		return  null;
 	}
 	@Override
 	public UserRegister findByMail(String email, Model model) {
@@ -236,9 +298,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean updatePassword(String password, String cPassword, String mail,Model model) {
 		 if(password != null && password.length()>7&& password.length()<16) {
-			 if(password.equals(cPassword)) {
-				return repo.updatePassword(password, cPassword, mail);
+			 try {
+				 if(password.equals(cPassword)) {
+				
+				String UP=	EncryptPWD(password,  "EncryptingKey" );
+				 
+				
+					
+					return repo.updatePassword(UP, UP, mail);
+				} 
+				
 			 }
+			 catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			 model.addAttribute("mismatch", "the password and confirm password must be same   ");  
 			 
 			 return false;
@@ -246,5 +320,92 @@ public class UserServiceImpl implements UserService {
 		 model.addAttribute("validpwd", "please give the password minimum length 8 to maximum 15  ");  
 		return false;
 	}
+	@Override
+	public String EncryptPWD(String password, String Secretkey)  throws Exception{
+		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        KeySpec spec = new PBEKeySpec(Secretkey.toCharArray(), Secretkey.getBytes(), 65536, 256);
+        SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secret);
+        byte[] iv = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
+
+        byte[] encryptedPassword = cipher.doFinal(password.getBytes("UTF-8"));
+        byte[] combined = new byte[iv.length + encryptedPassword.length];
+        System.arraycopy(iv, 0, combined, 0, iv.length);
+        System.arraycopy(encryptedPassword, 0, combined, iv.length, encryptedPassword.length);
+
+        return Base64.getEncoder().encodeToString(combined);
+		 
+	}
+
+	@Override
+	public String DecryptPWD(String encryptPwd,String Secretkey) {
+		
+		
+		 byte[] combined = Base64.getDecoder().decode(encryptPwd);
+
+        byte[] iv = new byte[16];
+        byte[] encrypted = new byte[combined.length - 16];
+        System.arraycopy(combined, 0, iv, 0, 16);
+        System.arraycopy(combined, 16, encrypted, 0, encrypted.length);
+
+        SecretKeyFactory factory;
+		try {
+			factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+		
+        KeySpec spec = new PBEKeySpec(Secretkey.toCharArray(), Secretkey.getBytes(), 65536, 256);
+        SecretKey secret;
+		 
+			secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+			Cipher cipher;
+			 
+				cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			 
+	         
+				cipher.init(Cipher.DECRYPT_MODE, secret, new IvParameterSpec(iv));
+			  
+	         
+				return new String(cipher.doFinal(encrypted), "UTF-8");
+			    
+
+		} catch (UnsupportedEncodingException|IllegalBlockSizeException|BadPaddingException |InvalidKeySpecException|NoSuchPaddingException|
+				InvalidKeyException|InvalidAlgorithmParameterException|NoSuchAlgorithmException e ) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		 
+	}  
+      return null;  
+       
+	}
+	@Override
+	public UserRegister mailExists(String mail) {
+		try {
+			 UserRegister reg= repo.mailExists(mail);
+			 
+			 if(reg!=null) {
+				 return reg;
+			 }
+			  
+		 }catch(NoResultException e) {
+			 System.out.println("exception occured");
+		 }
+		return null;
+	}
+	@Override
+	public UserRegister pwdExists(String password) {
+		try {
+			 UserRegister reg= repo.passwordExists(password);
+			 
+			 if(reg!=null) {
+				 return reg;
+			 }
+			  
+		 }catch(NoResultException e) {
+			 System.out.println("exception occured");
+		 }
+		return null;
+	}
+	 
+	
 }

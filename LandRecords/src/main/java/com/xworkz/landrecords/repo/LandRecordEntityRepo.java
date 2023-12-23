@@ -17,5 +17,10 @@ public interface LandRecordEntityRepo {
    public  boolean deleteRecords(int hissaNumber ,int surveyNumber ,int surveyno);
    public LandEntity  ifExists(int hissaNumber ,int surveyNumber);
    
+   public List<LandEntity> FindByHissaNo(int hissanumber);
+   public List<LandEntity> FindBySurveyNo(int surveynumber);
+   public List<LandEntity> FindBySurveyNoAndVillage(int surveynumber,String village);
+   
+   
    
 }

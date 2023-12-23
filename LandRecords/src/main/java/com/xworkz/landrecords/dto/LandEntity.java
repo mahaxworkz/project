@@ -18,7 +18,10 @@ import javax.persistence.Table;
 		+ "where dto.hissaNumber=:hn and dto.surveyNumber=:sn and  dto.status= 1")
 @NamedQuery(name="delete",query=" update LandEntity dto set dto.status=:st  where hissaNumber =:hn and surveyNumber =: sn")
 @NamedQuery(name="ifExist",query="select dto from LandEntity dto where dto.hissaNumber=:hn and dto.surveyNumber=:sn and   dto.status= 1")
- 
+@NamedQuery(name = "findhissa" , query = "select dto from LandEntity dto where dto.hissaNumber=:hs ")
+@NamedQuery(name = "findsurvey" , query = "select dto from LandEntity dto where dto.surveyNumber=:sn")
+@NamedQuery(name = "findsurveyAndVillage" , query = "select dto from LandEntity dto where dto.surveyNumber=:sn and dto.village=: vl ")
+
 public class LandEntity  implements Serializable{
 	
 	@Id
@@ -47,13 +50,14 @@ public class LandEntity  implements Serializable{
 	 
 	private  String village;
 	private int status=1;
+	private String acres ;
+	private  String image;
+	 
+	 
+	 
 	
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
+	 
+	 
 	public int getId() {
 		return id;
 	}
@@ -126,13 +130,32 @@ public class LandEntity  implements Serializable{
 	public void setVillage(String village) {
 		this.village = village;
 	}
-	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getAcres() {
+		return acres;
+	}
+	public void setAcres(String acres) {
+		this.acres = acres;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	public LandEntity() {
 		System.out.println("landentity");
 	}
-	public LandEntity(String ownerName, Long phoneNumber, String adharNumber, Integer hissaNumber, Integer surveyNumber,
-			String year, String state, String district, String taluk, String hobli, String village) {
+	public LandEntity(int id, String ownerName, Long phoneNumber, String adharNumber, Integer hissaNumber,
+			Integer surveyNumber, String year, String state, String district, String taluk, String hobli,
+			String village, int status ) {
 		super();
+		this.id = id;
 		this.ownerName = ownerName;
 		this.phoneNumber = phoneNumber;
 		this.adharNumber = adharNumber;
@@ -144,7 +167,17 @@ public class LandEntity  implements Serializable{
 		this.taluk = taluk;
 		this.hobli = hobli;
 		this.village = village;
+		this.status = status;
+		 
+		 	}
+	@Override
+	public String toString() {
+		return "LandEntity [ownerName=" + ownerName + ", phoneNumber=" + phoneNumber + ", adharNumber=" + adharNumber
+				+ ", hissaNumber=" + hissaNumber + ", surveyNumber=" + surveyNumber + ", year=" + year + ", state="
+				+ state + ", district=" + district + ", taluk=" + taluk + ", hobli=" + hobli + ", village=" + village
+				+ "]";
 	}
+	 
 	
 	
 	

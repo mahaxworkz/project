@@ -4,8 +4,12 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
- <!-- //web font -->
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+<title>Forget Password</title>
+  <!-- //web font -->
 <style type="text/css">
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
@@ -116,7 +120,7 @@ body {
   background: -webkit-linear-gradient(to top, #54caeb, #54caeb);
   background: -moz-linear-gradient(to top, #54caeb, #54caeb);
   background: -o-linear-gradient(to top, #54caeb, #54caeb);
-  background: linear-gradient(to top, #76b852, #11ba85);
+  background: linear-gradient(to top, #6edbd0, #147c9c);
   background-size: cover;
   background-attachment: fixed;
   font-family: 'Roboto', sans-serif;
@@ -211,9 +215,9 @@ input.email,input.number, input.text.w3lpass {
 input[type="submit"] {
   font-size: .9em;
   color: #fff;
-  background: #76b852;
+  background: #76c6de;
   outline: none;
-  border: 1px solid #76b852;
+  border: 1px solid #76c6de;
   cursor: pointer;
   padding: 0.9em;
   -webkit-appearance: none;
@@ -766,54 +770,34 @@ input.checkbox:checked:after {
 
 </style>
  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
+ </head>
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <!-- Container wrapper -->
-    <div class="container-fluid">
-        <!-- Navbar brand -->
-        <a class="navbar-brand mt-2 mt-lg-0" href="#">
-            <h5 class="pt-1">LandRecord</h5>
-        </a>
-        <!-- Toggle button -->
-        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left links -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="admin.jsp">LogOut</a>
-                </li>
-                
-             </ul>   
-                
-           
-            <!-- Right elements -->
-        </div>
-        <!-- Collapsible wrapper -->
+<nav class="navbar navbar-expand-lg navbar-light text-white " style="background-color:#3e4f4c; ">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="#">LandRecords</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+          <li class="nav-item">
+          <a class="nav-link text-white" href="index.jsp">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="usermain.jsp">Logout</a>
+        </li>
+          
+      </ul>
     </div>
-    <!-- Container wrapper -->
+  </div>
 </nav>
 <!-- Navbar -->
 <!-- main -->
 	<div class="main-w3layouts wrapper">
 	<h5 style="color: green;" align="center">${sign}</h5>
           <h5 style="color: red;" align="center">${account}</h5>
-	 	<h1>  OTP SENDING </h1> 
+	  	<h1 style="color: white;">  OTP SENDING </h1>  
 		<div class="main-agileinfo">
 			<div class="agileits-top">
 			<h6 style="color: green;">${checking}</h6>
@@ -821,16 +805,16 @@ input.checkbox:checked:after {
 			<h6 style="color: red;">${findotp1}</h6>
 			<h6 style="color: red;">${findotp}</h6>
 			
-				<form action="forget" method="post">
+				<form action="forget" method="post" id="collectMail" onsubmit="storeEmailAndSubmit(event)">
 					 
-					<input class="text email" type="email" name="email" placeholder="Email" required>
+					<input class="text email" id="email" type="email" name="email" placeholder="Email" required>
  				 	 <p> <a href="forgetpwd.jsp"> Resend otp</a></p>
 					<input type="submit" value="Send OTP">
 				</form>
 				<br>
-				<form action="checksotp" method="post">
-					 
-					<input class="text" type="password" name="otp" placeholder="otp" required>
+				<form action="checksotp" method="post" id="verifyotp-form" onsubmit="verifyOTP(event)">
+					 <input class="text email" id="email" type="hidden" name="email" value="${email}" placeholder="Email"  >
+					<input class="text" type="password" id="otp" name="otp" placeholder="otp" required>
  				 	 <br>
  				 	 
 					<input type="submit" value="next">
@@ -851,23 +835,54 @@ input.checkbox:checked:after {
  
   
 <!-- Footer -->
-<footer class="bg-primary text-center text-white fixed-bottom">
-     
-    <!-- Grid container -->
-
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color:primary;">
+ <footer class="bg-primary text-center text-white fixed-bottom">
+     <!-- Copyright -->
+    <div class="text-center p-3" style="background-color:#3e4f4c;">
         © 2023 Copyright:
         <a class="text-white" href="mahalakshmi.xworkz@gmail.com">LandRecords</a>
     </div>
     <!-- Copyright -->
 </footer>
 <!-- Footer -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ 
+<!-- Footer -->
  
     <!-- Include Bootstrap and jQuery scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!--   
+<script type="text/javascript">
+function storeEmailAndSubmit(event) {
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    // Store the email in session storage
+    sessionStorage.setItem("email", email);
+    // Submit the "sendotp" form
+    document.getElementById("collectMail").submit();
+}
 
+function verifyOTP(event) {
+    event.preventDefault();
+    // Retrieve the email from session storage
+    const email = sessionStorage.getItem("email");
+    if (email) {
+        // Use the email and OTP for verification
+        const otp = document.getElementById("otp").value;
+        // Perform OTP verification
+        console.log("Email:", email);
+        console.log("OTP:", otp);
+        // Clear session storage
+        sessionStorage.removeItem("email");
+    } else {
+        alert("Email not found in session storage.");
+    }
+}
+
+</script>-->
+ 
  
 </body>
 </html>

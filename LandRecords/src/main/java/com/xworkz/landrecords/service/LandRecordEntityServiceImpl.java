@@ -2,6 +2,8 @@ package com.xworkz.landrecords.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolation;
@@ -29,6 +31,9 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 	public boolean validateEntity(LandEntity ent, Model model) {
 		boolean valid = true; 
 	    System.out.println("method validation");
+	    System.out.println(ent.getTaluk()+","+ent.getOwnerName()+","+ent.getState());
+	    
+	    
 	    if ( ent.getOwnerName()!=null) {
 	        if (ent.getTaluk() == null || ent.getVillage().isEmpty()) {
 	        	 model.addAttribute("istalukvalid", "please check the taluk Field ");
@@ -153,31 +158,41 @@ public class LandRecordEntityServiceImpl implements LandRecordEntityService {
 	@Override
 	public boolean EditBySurveyno(String ownerName, long phoneNumber, String adharNumber, int hissaNumber,
 			int surveyNumber, Model model) {
-		 if(hissaNumber>0 && hissaNumber<21) {
-			 if(surveyNumber>0 && surveyNumber<150) {
-				if(adharNumber.length()==12) {
-					if(phoneNumber>999999999) {
-						if(ownerName.length()>3) {
-							return repo1.EditBySurveyno(ownerName, phoneNumber, adharNumber, hissaNumber, surveyNumber);
-						}
-						model.addAttribute( "nameError", " check the owner name");
-						return false;
-					}
-					model.addAttribute( "pnError", " check phone number");
-					return false;
-				}
-				model.addAttribute( "anError", " check Adhar number");
-				return false;
+		boolean check=true;
+		 String mailreg="^[1-9][0-9]{11}$";
+		 Pattern pattern= Pattern.compile(mailreg);
+		Matcher match= pattern.matcher(adharNumber);
+		boolean result=match.matches();
+		
+		 
+		
+		 if(hissaNumber>0 && hissaNumber<21 && surveyNumber>0 && surveyNumber<150) {
+			
+			
+			 if( !result) {
+				 model.addAttribute( "anError", " check Adhar number");
+					check=false ; 
 			 }
-			 model.addAttribute( "snError", " check survey number");
-				return false;
+			 if( phoneNumber<999999999 ) {
+				 model.addAttribute( "pnError", " check phone number");
+					check= false; 
+			 }
+			  if(ownerName.length()<3) {
+				  model.addAttribute( "nameError", " check the owner name");
+				  check= false;  
+			  }
+			  }
+			  else {
+				  model.addAttribute( "snError", " check survey number & hissa Number");
+				  check= false; 
+				 
+			  }
+		 if(check) {
+			 check=repo1.EditBySurveyno(ownerName, phoneNumber, adharNumber, hissaNumber, surveyNumber);
 		 }
-		 model.addAttribute( "hnError", " check hissa number");
-		return false;
+		return check;				 
+							
 	}
-
-
-
 
 	@Override
 	public boolean deleteRecords(int hissaNumber, int surveyNumber,Model model) {
